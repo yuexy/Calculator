@@ -1,5 +1,6 @@
 package com.weimeng.example;
 
+import com.weimeng.example.exception.ParserException;
 import com.weimeng.example.node.Token;
 
 import java.io.BufferedReader;
@@ -16,7 +17,7 @@ public class Lexer
     private static char currentChar;
     private static int currentLine;
 
-    public static LinkedList<Token> lexerAnalyse(BufferedReader br) throws IOException
+    public static LinkedList<Token> lexerAnalyse(BufferedReader br) throws IOException, ParserException
     {
         currentLine = 1;
         mBufferedReader = br;
@@ -88,13 +89,20 @@ public class Lexer
                 boolean isFloat = false;
                 while ((currentChar >= '0' && currentChar <= '9') || currentChar == '.')
                 {
-                    if (currentChar == '.')
+                    if (currentChar == '.' && !isFloat)
                     {
                         isFloat = true;
+                    }
+                    else if (currentChar == '.' && isFloat)
+                    {
+                        throw new ParserException("line " + currentLine + " : Float");
                     }
                     sb.append(currentChar);
                     readChar();
                 }
+
+//                // 运算阶段统一设置为浮点类型。
+//                tokenList.add(new Token(Token.FLOAT_REAL, sb.toString(), currentLine));
 
                 if (isFloat)
                 {

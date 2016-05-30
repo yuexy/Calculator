@@ -58,7 +58,10 @@ public class Parser
         TreeNode node = new TreeNode(TreeNode.WRITE_STMT);
         consumeNextToken(Token.WRITE);
         node.setLeft(parseExp());
-        consumeNextToken(Token.SEMI);
+        if (checkNextTokenType(Token.SEMI))
+            consumeNextToken(Token.SEMI);
+        else
+            consumeNextToken(Token.DOT);
         return node;
     }
 
@@ -105,7 +108,10 @@ public class Parser
             node.setMiddle(parseExp());
         }
 
-        consumeNextToken(Token.SEMI);
+        if (checkNextTokenType(Token.SEMI))
+            consumeNextToken(Token.SEMI);
+        else
+            consumeNextToken(Token.DOT);
         node.setLeft(varNode);
         return node;
     }
@@ -121,7 +127,12 @@ public class Parser
         node.setLeft(variableName());
         consumeNextToken(Token.ASSIGN);
         node.setMiddle(parseExp());
-        consumeNextToken(Token.SEMI);
+
+        if (checkNextTokenType(Token.SEMI))
+            consumeNextToken(Token.SEMI);
+        else
+            consumeNextToken(Token.DOT);
+
         return node;
     }
 
@@ -198,7 +209,7 @@ public class Parser
             switch (getNextTokenType())
             {
             case Token.INT_REAL:
-            case Token.FLOAT:
+            case Token.FLOAT_REAL:
                 expNode.setLeft(litreal());
                 break;
             case Token.LPAR:
@@ -206,15 +217,15 @@ public class Parser
                 expNode = parseExp();
                 consumeNextToken(Token.RPAR);
                 break;
-            case Token.MINUS:
-                expNode.setDataType(Token.MINUS);
-                currentToken = iterator.next();
-                expNode.setLeft(term());
-                break;
-            case Token.PLUS:
-                currentToken = iterator.next();
-                expNode.setLeft(term());
-                break;
+//            case Token.MINUS:
+//                expNode.setDataType(Token.MINUS);
+//                currentToken = iterator.next();
+//                expNode.setLeft(term());
+//                break;
+//            case Token.PLUS:
+//                currentToken = iterator.next();
+//                expNode.setLeft(term());
+//                break;
             default:
                 //返回的不是expNode
                 return variableName();
@@ -330,12 +341,13 @@ public class Parser
         if (iterator.hasNext())
         {
             currentToken = iterator.next();
+
             if (currentToken.getType() == type)
             {
                 return;
             }
         }
-        throw new ParserException("line " + getNextTokenLineNo() + " : next token should be -> " + new Token(type, 0));
+        throw new ParserException("line " + getNextTokenLineNo() + " : next token should be -> " + new Token(type, 0).getType());
     }
 
     /**

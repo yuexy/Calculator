@@ -181,4 +181,12 @@ public class Value
         }
         throw new InterpretException("算数运算非法");
     }
+
+    public String toString()
+    {
+        if (type == Symbol.SINGLE_FLOAT)
+            return mFloat + "";
+        else
+            return mInt + "";
+    }
 }

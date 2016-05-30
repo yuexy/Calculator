@@ -13,7 +13,7 @@ import java.util.LinkedList;
 public class Utils
 {
 
-    public static LinkedList<Token> getTokenList(String filestr) throws IOException
+    public static LinkedList<Token> getTokenList(String filestr) throws IOException, ParserException
     {
         FileReader fr;
         fr = new FileReader(filestr);

@@ -55,17 +55,15 @@ public class SymbolTable
     {
         for (int i = 0; i < symbolList.size(); i++)
         {
-            if (symbolList.get(i)
-                    .getName()
-                    .equals(symbol.getName()))
+            if (symbolList.get(i).getName().equals(symbol.getName()))
             {
-                if (symbolList.get(i)
-                        .getLevel() < symbol.getLevel())
+                if (symbolList.get(i).getLevel() < symbol.getLevel())
                 {
                     symbol.setNext(symbolList.get(i));
                     symbolList.set(i, symbol);
                     return;
-                } else
+                }
+                else
                 {
                     throw new InterpretException("变量 <" + symbol.getName() + "> 重复声明");
                 }
@@ -78,8 +76,7 @@ public class SymbolTable
     {
         for (int i = 0; i < symbolList.size(); i++)
         {
-            if (symbolList.get(i)
-                    .getLevel() == level)
+            if (symbolList.get(i).getLevel() == level)
             {
                 symbolList.set(i,
                         symbolList.get(i)
@@ -128,16 +125,14 @@ public class SymbolTable
     {
         for (Symbol s : symbolList)
         {
-            if (s.getName()
-                    .equals(name))
+            if (s.getName().equals(name))
             {
                 return s;
             }
         }
         for (Symbol s : tempNames)
         {
-            if (s.getName()
-                    .equals(name))
+            if (s.getName().equals(name))
             {
                 return s;
             }
@@ -165,8 +160,7 @@ public class SymbolTable
             boolean exist = false;
             for (Symbol s : tempNames)
             {
-                if (s.getName()
-                        .equals(temp))
+                if (s.getName().equals(temp))
                 {
                     exist = true;
                     break;
@@ -174,8 +168,7 @@ public class SymbolTable
             }
             for (Symbol s : symbolList)
             {
-                if (s.getName()
-                        .equals(temp))
+                if (s.getName().equals(temp))
                 {
                     exist = true;
                     break;
